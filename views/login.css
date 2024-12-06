@@ -1,0 +1,107 @@
+ /* Center the container */
+ body {
+    background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+    height: 100vh;
+}
+
+.login-container {
+    background-color: white;
+    border-radius: 10px;
+    /* Add rounded corners */
+    box-shadow: 10px 10px 5px rgba(9, 2, 2, 0.1);
+    background-color: #ffffff;
+    /* Ensure the background is white */
+}
+
+.login-container {
+    width: 400px;
+    margin: 0 auto;
+    /* Center horizontally */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+}
+
+/* Style the form and its elements */
+.loginForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Style input groups */
+.input-group {
+    width: 100%;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+/* Style labels */
+.input-group label {
+    margin-right: 10px;
+}
+
+/* Style inputs */
+.input-group input {
+    width: 80%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Style the error messages */
+.input-group span {
+    display: block;
+    margin-top: 5px;
+    font-size: 0.85em;
+    color: red;
+}
+
+/* Style the submit button */
+button[type="submit"] {
+    padding: 5px 10px;
+    margin-left: -25px;
+    border: 1px solid #000;
+    background: none;
+    cursor: pointer;
+    font-size: 1em;
+    border-radius: 4px;
+    text-align: center;
+    width: 80%;
+    /* Make the button the full width of the form */
+}
+
+.reset {
+    width: 100%;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: left;
+    position: relative;
+    margin-left: 60px;
+}
+
+.resetPassword {
+    text-decoration: none;
+    color: blue;
+}
+
+.resetPassword:hover {
+    border-radius: 10px;
+    background-color: rgb(243, 235, 226);
+}
+
+.backToSignup{
+    text-decoration: none;
+    color: blue;
+    margin-left: 130px;
+}
+
+.backToSignup:hover {
+    border-radius: 10px;
+    background-color: rgb(243, 235, 226);
+}

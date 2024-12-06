@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="login.css">
+</head>
+
+<body>
+    <div class="login-container">
+        <form class="loginForm" id="loginForm">
+            <h2>Login</h2>
+            <div class="input-group">
+                <label for="username"><i class="fas fa-user"></i></label>
+                <input type="text" id="username" placeholder="Enter Username" required><br>
+                <span id="usernameerr" name="usernameerr"></span>
+            </div>
+            <div class="input-group">
+                <label for="password"><i class="fas fa-lock"></i></label>
+                <input type="password" id="password" placeholder="Enter Password" required><br>
+                <span id="passworderr" name="passworderr"></span>
+            </div>
+            <div class="reset">
+                <a class="resetPassword" href="resetPassword.html" target="_blank">ResetPassword?</a>
+                <a href="signup.html" class="backToSignup">Signup</a>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async function submit(event) {
+            event.preventDefault();
+
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            const errorFields = ['usernameerr', 'passworderr'];
+            errorFields.forEach(field => document.getElementById(field).textContent = '');
+
+            let usernameerr = passworderr = "";
+
+            try {
+                const response = await fetch('http://localhost:3000/login', {
+                    method: 'post',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                })
+                const result = await response.json();
+                if (response.ok) {
+                    alert(result.message);
+                    document.getElementById('loginForm').reset();
+                } else {
+                    usernameerr = result.user || "";
+                    passworderr = result.pass || "";
+
+                    if (usernameerr) document.getElementById('usernameerr').textContent = usernameerr;
+                    if (passworderr) document.getElementById('passworderr').textContent = passworderr;
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("An error occurred.");
+            }
+        });
+    </script>
+</body>
+
+</html>

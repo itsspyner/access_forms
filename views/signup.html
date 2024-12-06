@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Sign-Up Form</title>
+    <link rel="stylesheet" href="signup.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="signup-container">
+        <form class="signup-form" id="signup-form">
+            <h2>SignUp Form</h2>
+            <div class="input-group">
+                <label for="username"><i class="fas fa-user"></i></label>
+                <input type="text" id="username" placeholder="Enter Username" required><br>
+                <span id="usernameerr" name="usernameerr"></span>
+            </div>
+            <div class="input-group">
+                <label for="email"><i class="fas fa-envelope"></i></label>
+                <input type="email" id="email" placeholder="Enter Email" required><br>
+                <span id="emailerr" name="emailerr"></span>
+            </div>
+            <div class="input-group">
+                <label for="password"><i class="fas fa-lock"></i></label>
+                <input type="password" id="password" placeholder="Create Password" required><br>
+                <span id="passworderr" name="passworderr"></span>
+            </div>
+            <div class="input-group">
+                <label for="confirm-password"><i class="fas fa-lock"></i></label>
+                <input type="password" id="confirm-password" placeholder="Retype Password" required><br>
+                <span id="confirmPassworderr" name="confirmPassworderr"></span>
+            </div>
+            <div class="reset">
+                <a class="back" href="login.html" target="_blank">Already have an account?</a>
+            </div>
+            <button type="submit">SignUp</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('signup-form').addEventListener('submit', async function signup(event) {
+            event.preventDefault();
+
+            // Clear previous error messages
+            const errorFields = ['usernameerr', 'emailerr', 'passworderr', 'confirmPassworderr'];
+            errorFields.forEach(field => document.getElementById(field).textContent = '');
+
+            let usernameerr = emailerr = passworderr = confirmPassworderr = "";
+
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+
+            const hasLowercase = /[a-z]/.test(password); // At least one small letter
+            const hasUppercase = /[A-Z]/.test(password); // At least one capital letter
+            const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password); // At least one special character
+            const hasNumber = /\d/.test(password); // At least one number
+            const isCorrectLength = password.length >= 8 && password.length <= 16; // Length between 8 and 16
+
+            if (!(hasLowercase && hasUppercase && hasSpecialChar && hasNumber && isCorrectLength)) {
+                passworderr = "Password must have 8-16 characters, including uppercase, lowercase, number, and special character.";
+                document.getElementById('passworderr').textContent = passworderr;
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                confirmPassworderr = "Passwords do not match.";
+                document.getElementById('confirmPassworderr').textContent = confirmPassworderr;
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:3000/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, email, password })
+                });
+
+                const result = await response.json();
+                if (response.ok) {
+                    alert(result.message);
+                    document.getElementById('signup-form').reset();
+                } else {
+                    usernameerr = result.user || "";
+                    emailerr = result.email || "";
+
+                    if (usernameerr) document.getElementById('usernameerr').textContent = usernameerr;
+                    if (emailerr) document.getElementById('emailerr').textContent = emailerr;
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        });
+
+    </script>
+</body>
+
+</html>
